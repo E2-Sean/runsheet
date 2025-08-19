@@ -1,0 +1,103 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Facility Visits for {{ facility_name }}</h1>
+
+<!-- <pre>{{ facility_visits }}</pre> -->
+
+{% if format == "normal" %}
+<table class="table table-bordered">
+    <thead>
+        <!-- <th>Client ID</th> -->
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Address</th>
+        <th>Suburb</th>
+        <th>Postcode</th>
+        <th>Phone main</th>
+        <th>Start at</th>
+        <th>End at</th>
+        <th>Service Code</th>
+        <th>Service instructions</th>
+        <!-- <tr>
+            {% for column in facility_visits.0.keys %}
+                <th>{{ column }}</th>
+            {% endfor %}
+        </tr> -->
+    </thead>
+    <tbody>
+        {% for visit in facility_visits %}
+            <tr>
+                <!-- <td>{{ visit.CLIENT_ID }}</td> -->
+                <td>{{ visit.FIRST_NAME }}</td>
+                <td>{{ visit.LAST_NAME }}</td>
+                <td>{{ visit.ADDRESS}}</td>
+                <td>{{ visit.SUBURB }}</td>
+                <td>{{ visit.POSTCODE }}</td>
+                <td>{{ visit.PHONE_MAIN }}</td>
+                <td>{{ visit.START_AT }}</td>
+                <td>{{ visit.END_AT }}</td>
+                
+                <td>{{ visit.SERVICE_CODE }}</td>
+                <td>{{ visit.SERVICE_INSTRUCTIONS }}</td>
+                
+                <!-- {% for value in facility_visit.values %}
+                    <td>{{ value }}</td>
+                {% endfor %} -->
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- CSV download button for normal visits -->
+<form method="POST" style="margin-top: 10px;">
+    {% csrf_token %}
+    <input type="hidden" name="facility" value="{{ request.POST.facility }}">
+    <input type="hidden" name="start_date" value="{{ request.POST.start_date }}">
+    <input type="hidden" name="end_date" value="{{ request.POST.end_date }}">
+    <input type="hidden" name="format" value="normal_csv">
+    <button type="submit" class="btn btn-primary">Download CSV</button>
+</form>
+
+{% elif format == "meals" %}<table class="table table-bordered">
+    <thead>
+        <!-- <th>Client ID</th> -->
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Number of Meals</th>
+        <th>Service instructions</th>
+        <!-- <tr>
+            {% for column in facility_visits.0.keys %}
+                <th>{{ column }}</th>
+            {% endfor %}
+        </tr> -->
+    </thead>
+    <tbody>
+        {% for meal in meal_visits %}
+            <tr>
+                <!-- <td>{{ visit.CLIENT_ID }}</td> -->
+                <td>{{ meal.FIRST_NAME }}</td>
+                <td>{{ meal.LAST_NAME }}</td>
+                <td>{{ meal.MEAL_COUNT }}</td>
+                <td>{{ meal.SERVICE_INSTRUCTIONS }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- CSV download button for meals -->
+<form method="POST" style="margin-top: 10px;">
+    {% csrf_token %}
+    <input type="hidden" name="facility" value="{{ request.POST.facility }}">
+    <input type="hidden" name="start_date" value="{{ request.POST.start_date }}">
+    <input type="hidden" name="end_date" value="{{ request.POST.end_date }}">
+    <input type="hidden" name="format" value="meals_csv">
+    <button type="submit" class="btn btn-primary">Download CSV</button>
+</form>
+
+{% endif %}
+
+
+{% endblock content %}

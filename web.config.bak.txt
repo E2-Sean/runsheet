@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <system.webServer>
+        <rewrite>
+            <rules>
+                <!-- Rule to handle requests for static files directly -->
+                <rule name="StaticFiles" stopProcessing="true">
+                    <match url="^static/(.*)$" />
+                    <conditions>
+                        <add input="{REQUEST_FILENAME}" matchType="IsFile" />
+                    </conditions>
+                    <action type="None" />
+                </rule>
+                <!--Reverse proxy rule for all other requests -->
+                <rule name="ReverseProxyInboundRule1" stopProcessing="true">
+                    <match url="(.*)" />
+                    <action type="Rewrite" url="http://localhost:8000/{R:1}" />
+                </rule>
+            </rules>
+        </rewrite>
+        <security>
+            <authorization>
+                <remove users="*" roles="" verbs="" />
+                <add accessType="Deny" users="?" />
+                <add accessType="Allow" roles="CCS - Rostering - APPAccess" />
+                <add accessType="Allow" roles="Alayacare CMS Team" />
+            </authorization>
+        </security>
+        <httpErrors errorMode="Detailed" />
+        <directoryBrowse enabled="false" />
+    </system.webServer>
+</configuration>

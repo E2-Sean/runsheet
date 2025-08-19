@@ -1,0 +1,8 @@
+#.gitignore
+.env
+__pycache__/
+*.pyc
+key.py
+web.config
+db.sqlite
+*__init__.py

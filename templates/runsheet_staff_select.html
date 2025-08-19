@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Runsheet</h1>
+
+{% if employees %}
+<form action="runsheet" method="post" novalidate>
+    {% csrf_token %}
+    <table class="table">
+        <tr>
+            <td>Agency</td>
+            <td>
+                <!--{{ employee_select | safe }} -->
+                <select name="employee">
+                {% for employee in employees %}
+                    <option value="{{ employee.id }}">{{ employee.first_name }} {{ employee.last_name }}</option>
+                {% endfor %}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Start date</td>
+            <td><input type="date" name="start_date"></td>
+        </tr>
+        <tr>
+            <td>End date</td>
+            <td><input type="date" name="end_date"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Select Employee" class="btn btn-primary"></td>
+        </tr>
+    </table>
+</form>
+{% else %}
+    <p>No employee matches that search.</p>
+{% endif %}
+
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,27 @@
+
+{% extends "base.html" %}
+
+{% if messages %}
+  {% for _ in messages %}{% endfor %}
+{% endif %}
+
+{% block content %}
+<div class="card my-4">
+  <div class="card-body">
+    <h1 class="card-title h4">Import Complete</h1>
+
+    <p>Rows uploaded: <strong>{{ row_count }}</strong></p>
+
+    <hr>
+    <a class="btn btn-warning" href="{% url 'cims:remove_duplicates' %}">
+    Find duplicates
+    </a>
+    
+
+  </div>
+</div>
+{% endblock content %}
+
+{% block rightcontent %}
+  <!-- optional right column content -->
+{% endblock rightcontent %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Runsheet</h1>
+
+<form action="runsheet-staff-search" method="post" novalidate>
+    {% csrf_token %}
+    <table class="table">
+        <tr>
+            <td>Employee (use Internal Employee ID not the AC... one)</td>
+            <td>
+                <!--{{ employee_select | safe }} -->
+                <input name="employee" type="text">
+            </td>
+        </tr>
+        <!--
+        <tr>
+            <td>Start date</td>
+            <td><input type="date" name="start_date"></td>
+        </tr>
+        <tr>
+            <td>End date</td>
+            <td><input type="date" name="end_date"></td>
+        </tr>
+        -->
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Select Agency" class="btn btn-primary"></td>
+        </tr>
+    </table>
+</form>
+
+
+{% endblock content %}

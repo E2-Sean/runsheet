@@ -1,0 +1,95 @@
+<style>
+    @page {
+        size:landscape;
+    }
+    .ps {
+        padding: 5px;
+        font-family: Arial, serif;
+        font-size: 12px;
+    }
+
+</style>
+
+{% if dev_phase.dev_phase == 'DEV' %}
+    <img src="/static/images/centacare_logo_black_bg.png">
+{% else %}
+    <!--- to workaround weasyprint and AD issues -->
+    <img src="http://localhost/centacare_logo_black_bg.png">
+{% endif %}
+
+<h2 class="ps">Runsheet for {{ employee_details.employee_firstname }} {{ employee_details.employee_lastname }} </h2>
+
+<table>
+    <tr>
+        <th class="ps" style="width:67%">Client</th>
+        <th class="ps" style="width:33%">Risks</th>
+    </tr>
+    {% for visit in visits %}
+        <tr>
+            <td style="vertical-align: top;">
+                <table class="ps" style="width:100%">
+                    <tr>
+                        <td class="ps" style="width:30%">Date</td>
+                        <td class="ps" style="width:40%">{{ visit.start_at|date:"l d/m/Y" }}</td>
+                        <td class="ps" style="width:15%">{{ visit.start_at|date:"H:i" }}</td>
+                        <td class="ps" style="width:15%">{{ visit.end_at|date:"H:i" }}</td>
+                    </tr>
+                    {% if visit.visit_type == 'home_visit' %}
+                    <tr>
+                        <td class="ps quarter-width">Client</td>
+                        <td class="ps" colspan="3">{{ visit.salutation }} {{ visit.first_name }} {{ visit.last_name }}</td>
+                    </tr>
+                    <tr>
+                        <td class="ps quarter-width">Address</td>
+                        <td class="ps" colspan="3">{{ visit.address }} {{ visit.address_suite}}{% if visit.address_suite %}, {{ visit.address_suite }}{% endif %}, {{ visit.city }}, {{ visit.state }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td class="ps quarter-width">Facility</td>
+                        <td class="ps" colspan="3">{{ visit.facility}}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <td class="ps quarter-width">Service</td>
+                        <td class="ps" colspan="3">{{ visit.service_code_name }} </td>
+                    </tr>
+                    {% if visit.service_instructions %}
+                    <tr>
+                        <td class="ps quarter-width">Service instructions</td>
+                        <td class="ps" colspan="3">{{ visit.service_instructions }}</td>
+                    </tr>
+
+                    {% endif %}
+                </table>
+            </td>
+            <td style="vertical-align: top;">
+                {% if visit.risks_data %}
+                <table class="ps">
+                    {% for risk in visit.risks_data %}
+                    <tr>
+                        <td class="ps"  style="vertical-align: top;">{{ risk.category }}</td>
+                        <td class="ps">{{ risk.risk }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <table class="ps">
+                    <tr>
+                        <td class="ps" style="vertical-align: top;">{% if visit.visit_type == 'home_visit' %} None recorded {% else %} N/A {% endif %}</td>
+                        <td class="ps"></td>
+                    </tr>
+                </table>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+
+
+
+
+
+
+
+

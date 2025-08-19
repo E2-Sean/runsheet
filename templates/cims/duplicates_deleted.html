@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card my-4">
+  <div class="card-body">
+    <h1 class="h4 mb-3">Duplicate Removed</h1>
+
+    {% if error %}
+      <p class="alert alert-danger" role="alert">
+        {{ error }}
+      </p>
+      
+    {% else %}
+      <p class="alert alert-success" role="alert">
+        {{ deleted_count }} record{{ deleted_count|pluralize }} deleted and audited as <strong>Duplicate</strong>.
+      </p>
+
+      <div class="d-flex gap-2">
+        <a class="btn btn-warning" href="{% url 'cims:remove_overlaps' %}">Remove Overlaps</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}

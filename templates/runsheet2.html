@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Runsheet for {{ employee_details.employee_firstname }} {{ employee_details.employee_lastname }} <!-- ({{ employee_details.employee_email }}) --></h2>
+
+<div class="container">
+    <table class="table table-bordered">
+        <tr>
+            <th style="width:67%">Client</th>
+            <th style="width:33%">Risks</th>
+        </tr>
+    {% for visit in visits %}
+        <tr>
+            <td>
+                <table class="table">
+                    <tr>
+                        <td style="width:30%">Date</td>
+                        <td style="width:40%">{{ visit.start_at|date:"l d/m/Y" }}</td>
+                        <td style="width:15%">{{ visit.start_at|date:"H:i" }}</td>
+                        <td style="width:15%">{{ visit.end_at|date:"H:i" }}</td>
+                    </tr>
+                    {% if visit.visit_type == 'home_visit' %}
+                    <tr>
+                        <td>Client</td><td colspan="3">{{ visit.salutation }} {{ visit.first_name }} {{ visit.last_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Address</td><td colspan="3">{{ visit.address }}{% if visit.address_suite %}, {{ visit.address_suite }}{% endif %}, {{ visit.city }}, {{ visit.state }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td>Facility</td><td colspan="3">{{ visit.facility}}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <td>Service</td><td colspan="3">{{ visit.service_code_name }} </td>
+                    </tr>
+                    {% if visit.service_instructions %}
+                    <tr>
+                        <td>Service instructions</td><td colspan="3">{{ visit.service_instructions }}</td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </td>
+            <td>
+                {% if visit.risks_data %}
+                <table class="table">
+                    {% for risk in visit.risks_data %}
+                    <tr>
+                        <td>{{ risk.category }}</td>
+                        <td>{{ risk.risk }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <table class="table">
+                    <tr>
+                        <td>{% if visit.visit_type == 'home_visit' %} None recorded {% else %} N/A {% endif %}</td>
+                        <td></td>
+                    </tr>
+                </table>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+
+
+<!--<p>{{ parameters.employee }} {{ parameters.start_date_from }} {{ parameters.start_date_to }}</p>-->
+
+<form action="generate-pdf" method="post" novalidate>
+{% csrf_token %}
+<table>
+    <tr>
+        <td></td>
+        <td>
+            <input type="hidden" name="employee" value="{{ parameters.employee }}">
+            <input type="hidden" name="start_date" value="{{ parameters.start_date_from }}">
+            <input type="hidden" name="end_date" value="{{ parameters.start_date_to }}">
+            <input type="hidden" name="visits" value="{{ visits|safe }}">
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="submit" value="Generate PDF" class="btn btn-primary"></td>
+    </tr>
+</table>
+</form>
+
+{% endblock content %}

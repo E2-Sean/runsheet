@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+<div class="card my-4">
+  <div class="card-body">
+    <h1 class="h4 mb-3">Review and Remove Duplicates</h1>
+
+    <p class="alert alert-warning" role="alert">
+      ⚠ Review carefully. Rows with <code>row_num &gt; 1</code> are pre-selected and will be removed if you click "Delete selected".
+    </p>
+
+    <p class="mb-3">
+      Groups found: <strong>{{ group_count|intcomma }}</strong>,
+      Rows listed: <strong>{{ row_count|intcomma }}</strong>
+    </p>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="table-responsive">
+        <table class="table table-sm table-striped table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th>
+                <input type="checkbox" id="check-all">
+              </th>
+              <th>record_id</th>
+              <th>visit_id</th>
+              <th>employee_no</th>
+              <th>pay_code</th>
+              <th>startdate</th>
+              <th>starttime</th>
+              <!--<th>enddate</th>-->
+              <th>endtime</th>
+              <th>row_num</th>
+              <th>dup_count</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in rows %}
+              <tr>
+                <td>
+                  <input
+                    type="checkbox"
+                    name="record_ids"
+                    value="{{ r.record_id }}"
+                    {% if r.row_num|add:0 > 1 %}checked{% endif %}>
+                </td>
+                <td>{{ r.record_id }}</td>
+                <td>{{ r.visit_id }}</td>
+                <td>{{ r.employee_no }}</td>
+                <td>{{ r.pay_code }}</td>
+                <td>{{ r.startdate|date:"Ymd" }}</td>
+                <td>{{ r.starttime }}</td>
+                <!--<td>{{ r.enddate|date:"Ymd" }}</td>-->
+                <td>{{ r.endtime }}</td>
+                <td>{{ r.row_num }}</td>
+                <td>{{ r.duplicate_count }}</td>
+                
+              </tr>
+            {% empty %}
+              <tr><td colspan="12" class="text-muted">No duplicates found.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        
+        <button type="submit" class="btn btn-danger">
+          Delete selected
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+// Basic "check all" for convenience
+document.getElementById('check-all')?.addEventListener('change', function (e) {
+  document.querySelectorAll('input[name="record_ids"]').forEach(cb => cb.checked = e.target.checked);
+});
+</script>
+{% endblock content %}

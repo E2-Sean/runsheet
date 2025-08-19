@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Centacare AlayaCare API Accessories</h1>
+
+<p><a href="/agency/runsheet">Agency Runsheet</a></p>
+
+<p><a href="/agency/runsheet-staff-search">Staff Runsheet</a></p>
+
+<p>NB. The Runsheet app makes a lot of calls to the AlayaCare APIs so pages can take about 10-20 seconds to load.</p>
+
+<p><a href="/agency/facility-list">Facility Runsheet</a></p>
+
+<p></p>
+
+<p>NB. The Facility Runsheet queries Snowflake (the backend for DE 2.0 reports in Alayacare). Data in Snowflake can take two hours to update from the live database.</p>
+
+
+<!--
+<p><a href="/agency/runsheet-staff">Staff Runsheet</a></p>
+-->
+<!--
+<form action="" method="post" novalidate>
+    {% csrf_token %}
+    {{ employee_select | safe
+     }}
+    <input type="submit" value="Save and Continue" class="btn btn-primary">
+    {% comment %} COuldnt figure out how to url back to refferer app from patient app {% endcomment %}
+    {% comment %} <button type="button" onclick="location.href='{% url 'landing' %}'"class ="btn btn-danger">Go Back</button> {% endcomment %}
+</form>
+-->
+
+{% endblock content %}

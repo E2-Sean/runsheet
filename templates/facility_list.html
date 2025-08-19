@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Facility Runsheet</h1>
+    
+    <form method="post" action="{% url 'facility-visits' %}" novalidate>
+        {% csrf_token %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <td><label for="facility">Facility</label></td>
+                <td>
+                    <select name="facility" id="facility">
+                        {% for facility in facility_list %}
+                            <option value="{{ facility.FACILITY_ID }}">{{ facility.FACILITY_NAME }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Start date</td>
+                <td><input type="date" name="start_date" value="{{ today }}"></td>
+            </tr>
+            <tr>
+                <td>End date</td>
+                <td><input type="date" name="end_date" value="{{ tomorrow }}"></td>
+            </tr>
+            <tr>
+                <td>Format</td>
+                <td>
+                    <select name="format">
+                        <option value="normal">Normal</option>
+                        <option value="normal_csv">Normal CSV</option>
+                        <option value="meals">Meals</option>
+                        <option value="meals_csv">Meals CSV</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Select Facility and Format" class="btn btn-primary"></td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+{% endblock content %}

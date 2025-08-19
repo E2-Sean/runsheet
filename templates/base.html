@@ -1,0 +1,112 @@
+
+{% load static %}
+
+{% load bootstrap4 %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Montserrat font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/vitalis.css' %}" /> -->
+
+    <title>Centacare Portal</title>
+</head>
+<body id="bootstrap-overrides">
+
+    <!-- top navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark border-bottom-line">
+        <a class="navbar-brand" href="/">
+            <img src="{% static 'images/logo-centacare-reverse.svg' %}"  alt="Centacare">
+        </a>
+        <!-- <a class="navbar-brand" href="/">Portal</a> -->
+        <!-- {% if user.is_authenticated %} -->
+        <a class="navbar-brand ml-auto" href="{% url 'logout' %}">Log Out</a></span>
+        <!-- {% endif %} -->
+    </nav>
+
+    <!-- This container contains the sidebar and main content of the page -->
+    <!-- h-100 takes the full height of the body-->
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <div class="col-2" id="green">
+
+                {% if user.is_authenticated %}
+                <!-- Navigation links in sidebar-->
+                {% comment %} <h2 class="mt-2">Portal testing tools:</h2> {% endcomment %}
+                <br>
+                <a href="/agency/index">Agency Runsheet</a><br />
+                <br />
+
+                <!--
+                <a href="/patient/admission-overview">MR 01 Admission</a><br />
+                <br />
+                <a href="/patient/admission-overview">MR 02 History</a><br />
+                <br /> -->
+
+                <!-- <a href="/patient/impjson">Import Patient (HL7 FHIR JSON)</a><br />
+                <br />-->
+                <!-- <a href="/patient/import/h7-fhir/json">Import Patient (H7 FHIR JSON)</a>
+                <br /> -->
+                <!-- <a href="/patient/upload">Review Referral</a><br />
+                <br /> -->
+
+                <!--
+                <a href="/patient/obs-record">Record Observations</a><br />
+                <br />
+                <a href="/patient/obs-chart">Graph Observations</a><br />
+                <br />
+
+                <br />
+
+                <a href="/patient/test">Test Page</a><br />
+                <br />
+                -->
+
+                {% endif %}
+                <br />
+            </div>
+            <!--Contains the main content of the webpage-->
+            <div class="col-8" style="text-align: justify;">
+                {% block content %}
+
+                {% endblock content %}
+            </div>
+            <!--Contains the right column -->
+            <div class="col-2" style="text-align: justify;">
+                {% block rightcontent %}
+
+                {% endblock rightcontent %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <!-- Footer -->
+        <footer>
+        <!-- Copyright -->
+            <div class="text-center p-3">
+                {% if user.is_authenticated %}<span>Logged in as {{ user.username }}</span><br />{% endif %}
+            </div>
+        </footer>
+    </div>
+
+<!-- jQuery library -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
