@@ -74,7 +74,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.RemoteUserMiddleware', #added for remote user passthrough from IIS
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
+
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -127,28 +127,15 @@ DATABASES = {
             'client_session_keep_alive': True,  # Keeps session alive
         },
     },
-    'mssql_broken': {
-        'ENGINE': 'mssql',
-        'NAME': 'DTDev',
-        'HOST': 'ef01dbs3b',
-        'PORT': '1433',  # Default SQL Server port
-        #'USER': 'ARCHBNE\\welshs',
-        #'PASSWORD': 'REDACTED',
-        'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
-            'trusted_connection': 'yes'
-            #'extra_params': 'encrypt=yes;trustservercertificate=yes',  # Optional
-        },
-    },
     'mssql': {
         'ENGINE': 'mssql',
         'NAME': 'sub',
         'USER': 'sub',
         'PASSWORD': 'U333',
-        'HOST': 'EF01TST1A',
-        'PORT': '1433',  
+        'HOST': 'LOCALHOST',
+        'PORT': '1433',
         'OPTIONS': {
-            'driver': 'ODBC Driver 18 for SQL Server',
+            'driver': 'ODBC Driver 17 for SQL Server',
             'extra_params':'Encrypt=yes;TrustServerCertificate=yes;',
         },
     }
